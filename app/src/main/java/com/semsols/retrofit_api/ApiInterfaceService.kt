@@ -10,7 +10,7 @@ interface ApiInterfaceService {
 
     @GET("/posts")
 
-    fun getPost() : Call<MutableList<PostModel>>
+    fun getPosts() : Call<MutableList<PostModel>>
 
 
 }
