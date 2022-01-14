@@ -3,6 +3,7 @@ package com.semsols.retrofit_api
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //On button click
-        getData.setOnClickListener {
+
 
             val serviceGenerator = ServiceGenerator.buildService(ApiInterfaceService::class.java)
             val call = serviceGenerator.getPosts()
@@ -23,22 +24,22 @@ class MainActivity : AppCompatActivity() {
             call.enqueue(object : retrofit2.Callback<MutableList<PostModel>>{
                 override fun onResponse(call: Call<MutableList<PostModel>>, response: Response<MutableList<PostModel>>) {
                     if (response.isSuccessful){
-                        Log.e("Success",response.body().toString())
+                        recycleView.apply {
+
+                            layoutManager = LinearLayoutManager(this@MainActivity)
+                            adapter = PostAdapter(response.body()!!)
+
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<MutableList<PostModel>>, t: Throwable) {
                     t.printStackTrace()
                     Log.e("Failure",t.message.toString())
-
-
                 }
-
 
             })
 
-
-        }
 
     }
 }
